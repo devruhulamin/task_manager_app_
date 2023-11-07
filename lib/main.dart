@@ -11,6 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          primaryColor: Colors.green,
+          primarySwatch: Colors.green,
+          inputDecorationTheme: const InputDecorationTheme(
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.all(10),
+              border: InputBorder.none),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green[400],
+          ))),
       home: SplashScreen(),
     );
   }
