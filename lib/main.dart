@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green[400],
           ))),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -51,6 +51,34 @@ class LoginScreen extends StatelessWidget {
                       Icons.arrow_circle_right_outlined,
                     ),
                   ),
+                ),
+                const SizedBox(height: 40),
+                const Center(
+                  child: Column(children: [
+                    Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have Account?",
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Signup",
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ]),
                 )
               ],
             ),
