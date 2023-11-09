@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
-import 'package:task_manager_app/ui/screens/login_screen.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 
-class PinVerificationScreen extends StatelessWidget {
-  const PinVerificationScreen({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class PinVerificationScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Pin Verification",
+                          "Your Email Address",
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(
@@ -33,18 +32,10 @@ class PinVerificationScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Center(
-                          child: Pinput(
-                            defaultPinTheme: defaultPinTheme,
-                            focusedPinTheme: focusedPinTheme,
-                            submittedPinTheme: submittedPinTheme,
-                            validator: (s) {
-                              return s == '2222' ? null : 'Pin is incorrect';
-                            },
-                            pinputAutovalidateMode:
-                                PinputAutovalidateMode.onSubmit,
-                            showCursor: true,
-                            onCompleted: (pin) => print(pin),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            filled: true,
+                            hintText: 'Email: ',
                           ),
                         ),
                         const SizedBox(
@@ -54,9 +45,8 @@ class PinVerificationScreen extends StatelessWidget {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {},
-                            child: const Text(
-                              "Verify",
-                              style: TextStyle(color: Colors.white),
+                            child: const Icon(
+                              Icons.arrow_circle_right_outlined,
                             ),
                           ),
                         ),
@@ -92,27 +82,3 @@ class PinVerificationScreen extends StatelessWidget {
         ));
   }
 }
-
-final defaultPinTheme = PinTheme(
-  width: 56,
-  height: 56,
-  textStyle: const TextStyle(
-      fontSize: 20,
-      color: Color.fromRGBO(30, 60, 87, 1),
-      fontWeight: FontWeight.w600),
-  decoration: BoxDecoration(
-    border: Border.all(color: Colors.grey),
-    borderRadius: BorderRadius.circular(10),
-  ),
-);
-
-final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-  border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
-  borderRadius: BorderRadius.circular(8),
-);
-
-final submittedPinTheme = defaultPinTheme.copyWith(
-  decoration: defaultPinTheme.decoration?.copyWith(
-    color: const Color.fromRGBO(234, 239, 243, 1),
-  ),
-);

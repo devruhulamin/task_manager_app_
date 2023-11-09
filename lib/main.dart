@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/ui/screens/splash_screen.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());

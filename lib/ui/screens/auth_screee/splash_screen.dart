@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:task_manager_app/ui/screens/set_password_screen.dart';
+import 'package:task_manager_app/ui/screens/home_screen.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/register_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ void goToHome(BuildContext context) {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const SetPasswordScreen(),
+            builder: (context) => const HomeScreen(),
           ));
     },
   );
