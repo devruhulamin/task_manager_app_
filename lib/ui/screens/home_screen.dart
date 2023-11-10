@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager_app/ui/screens/cancelled_task.dart';
 import 'package:task_manager_app/ui/screens/completed_task_screen.dart';
 import 'package:task_manager_app/ui/screens/new_task_screen.dart';
 import 'package:task_manager_app/ui/screens/progress_task_screen.dart';
+import 'package:task_manager_app/ui/widgets/profile_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screen[_seletedNavIdx],
+      body: SafeArea(
+        child: _screen[_seletedNavIdx],
+      ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _seletedNavIdx,
           showUnselectedLabels: true,
@@ -55,6 +59,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 label: 'Progress'),
           ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddNewTaskScreen(),
+              ));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

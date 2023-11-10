@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 void goToHome(BuildContext context) {
   Future.delayed(
-    const Duration(seconds: 5),
+    const Duration(seconds: 3),
     () {
       Navigator.pushReplacement(
           context,
