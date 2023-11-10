@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/ui/screens/cancelled_task.dart';
+import 'package:task_manager_app/ui/screens/completed_task_screen.dart';
+import 'package:task_manager_app/ui/screens/new_task_screen.dart';
+import 'package:task_manager_app/ui/screens/progress_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,15 +13,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _seletedNavIdx = 0;
+  final _screen = const [
+    NewTaskScreen(),
+    CompletedTaskScreen(),
+    CancelledTaskScreen(),
+    ProgressTaskScreen()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          "Home Screen",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
+      body: _screen[_seletedNavIdx],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _seletedNavIdx,
           showUnselectedLabels: true,

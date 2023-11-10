@@ -8,11 +8,13 @@ class DefaultBackGround extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      // fit: StackFit.loose,
       children: [
         SvgPicture.asset(
           'assets/svg/background.svg',
           width: double.infinity,
           height: double.infinity,
+          fit: BoxFit.fill,
         ),
         child,
       ],
