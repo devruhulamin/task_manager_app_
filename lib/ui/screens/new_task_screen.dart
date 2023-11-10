@@ -32,11 +32,18 @@ class NewTaskScreen extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: const [
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
-              TaskItem(),
+              TaskItem(
+                type: TaskType.newitem,
+              ),
+              TaskItem(
+                type: TaskType.newitem,
+              ),
+              TaskItem(
+                type: TaskType.newitem,
+              ),
+              TaskItem(
+                type: TaskType.newitem,
+              ),
             ],
           ),
         ),

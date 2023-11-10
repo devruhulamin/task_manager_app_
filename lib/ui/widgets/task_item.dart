@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
+enum TaskType { cancelled, completed, progress, newitem }
+
 class TaskItem extends StatelessWidget {
   const TaskItem({
     super.key,
+    required this.type,
   });
+
+  final TaskType type;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +40,12 @@ class TaskItem extends StatelessWidget {
             ),
             Row(
               children: [
-                const Chip(
+                Chip(
                     label: Text(
-                      'New',
-                      style: TextStyle(color: Colors.white),
+                      getTypeText(type),
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    backgroundColor: Colors.blue),
+                    backgroundColor: getTypeColor(type)),
                 const Spacer(),
                 IconButton(
                   onPressed: () {},
@@ -61,5 +66,29 @@ class TaskItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Color getTypeColor(TaskType type) {
+  if (type == TaskType.cancelled) {
+    return Colors.red;
+  } else if (type == TaskType.completed) {
+    return Colors.green;
+  } else if (type == TaskType.newitem) {
+    return Colors.blue;
+  } else {
+    return Colors.purple;
+  }
+}
+
+String getTypeText(TaskType type) {
+  if (type == TaskType.cancelled) {
+    return 'cancelled';
+  } else if (type == TaskType.completed) {
+    return 'completed';
+  } else if (type == TaskType.newitem) {
+    return 'new';
+  } else {
+    return 'progress';
   }
 }
