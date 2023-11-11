@@ -13,7 +13,7 @@ class UpdateProfileScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const ProfileBar(),
+              const ProfileBar(isClickAble: false),
               const SizedBox(height: 50),
               Padding(
                 padding:
