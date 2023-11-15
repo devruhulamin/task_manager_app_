@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/update_profile_screen.dart';
 
 class ProfileBar extends StatelessWidget {
@@ -7,6 +8,7 @@ class ProfileBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userData = AuthController().userAuthData;
     return Container(
       decoration: const BoxDecoration(color: Colors.green),
       child: ListTile(
@@ -23,13 +25,14 @@ class ProfileBar extends StatelessWidget {
         leading: const CircleAvatar(
           child: Icon(Icons.person),
         ),
-        title: const Text(
-          "Rabbil Hossen",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        title: Text(
+          "${userData?.firstName} ${userData?.lastName}",
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
-        subtitle: const Text(
-          "rabbil@gmail.com",
-          style: TextStyle(color: Colors.white),
+        subtitle: Text(
+          "${userData?.email}",
+          style: const TextStyle(color: Colors.white),
         ),
         trailing: isClickAble
             ? const Icon(
