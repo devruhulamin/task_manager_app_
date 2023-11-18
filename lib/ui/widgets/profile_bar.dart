@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
 import 'package:task_manager_app/ui/screens/update_profile_screen.dart';
 
 class ProfileBar extends StatelessWidget {
@@ -34,12 +35,21 @@ class ProfileBar extends StatelessWidget {
           "${userData?.email}",
           style: const TextStyle(color: Colors.white),
         ),
-        trailing: isClickAble
-            ? const Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
-              )
-            : null,
+        trailing: IconButton(
+          onPressed: () {
+            AuthController().clearAuthCache();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+                (route) => false);
+          },
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
