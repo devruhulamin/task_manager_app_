@@ -99,7 +99,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                               final data = {
                                 "title": subjectTextController.text,
                                 "description": describtionTextController.text,
-                                "status": "New",
+                                "status": "new",
                               };
                               final response = await NetworkCaller()
                                   .postRequest(url: createTaskUrl, data: data);

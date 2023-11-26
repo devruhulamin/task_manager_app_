@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/ui/screens/home_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';

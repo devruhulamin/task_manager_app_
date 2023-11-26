@@ -4,7 +4,6 @@ import 'package:task_manager_app/ui/screens/cancelled_task.dart';
 import 'package:task_manager_app/ui/screens/completed_task_screen.dart';
 import 'package:task_manager_app/ui/screens/new_task_screen.dart';
 import 'package:task_manager_app/ui/screens/progress_task_screen.dart';
-import 'package:task_manager_app/ui/widgets/profile_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

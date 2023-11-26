@@ -10,12 +10,48 @@ class NetworkCaller {
     required dynamic data,
   }) async {
     try {
+      // print("Token is : ${AuthController().userAuthToken}");
       final response = await http.post(Uri.parse(url),
           headers: {
             'Content-Type': 'application/json',
             'token': '${AuthController().userAuthToken}',
           },
           body: jsonEncode(data));
+
+      if (response.statusCode == 200) {
+        // print(response.body);
+        return NetworkResponse(
+          isSuccess: true,
+          jsonResponse: jsonDecode(response.body),
+          statusCode: 200,
+        );
+      } else {
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: response.statusCode,
+        );
+      }
+    } catch (e) {
+      return NetworkResponse(
+        isSuccess: false,
+        errorMessage: e.toString(),
+      );
+    }
+  }
+
+  Future<NetworkResponse> getRequest({
+    required String url,
+  }) async {
+    try {
+      // print("Token is : ${AuthController().userAuthToken}");
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'token': '${AuthController().userAuthToken}',
+        },
+      );
+
       if (response.statusCode == 200) {
         // print(response.body);
         return NetworkResponse(

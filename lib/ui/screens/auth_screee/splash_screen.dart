@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
-import 'package:task_manager_app/ui/screens/auth_screee/register_screen.dart';
 import 'package:task_manager_app/ui/screens/home_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 

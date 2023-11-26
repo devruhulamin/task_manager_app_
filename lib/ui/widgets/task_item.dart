@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/model/task_model.dart';
 
 enum TaskType { cancelled, completed, progress, newitem }
 
@@ -6,9 +7,11 @@ class TaskItem extends StatelessWidget {
   const TaskItem({
     super.key,
     required this.type,
+    required this.task,
   });
 
   final TaskType type;
+  final TaskModel task;
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +21,22 @@ class TaskItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Learning Korean EveryDay atleast 1 hour',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Text(
+              '${task.title}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'learning korean everday makes you korean language flutent in 6 month',
+            Text(
+              '${task.description}',
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              "Date: 10/11/2023",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              "Date: ${task.createdDate}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10,

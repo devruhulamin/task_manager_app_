@@ -14,6 +14,7 @@ class StatusCard extends StatelessWidget {
           vertical: 10,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               count,

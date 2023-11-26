@@ -44,7 +44,7 @@ class PinVerificationScreen extends StatelessWidget {
                             pinputAutovalidateMode:
                                 PinputAutovalidateMode.onSubmit,
                             showCursor: true,
-                            onCompleted: (pin) => print(pin),
+                            onCompleted: (pinCode) {},
                           ),
                         ),
                         const SizedBox(
