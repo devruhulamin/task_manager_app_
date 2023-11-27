@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/model/task_model.dart';
 import 'package:task_manager_app/ui/widgets/task_item.dart';
 import 'package:task_manager_app/utilities/fetch_task.dart';
 import 'package:task_manager_app/utilities/urls.dart';

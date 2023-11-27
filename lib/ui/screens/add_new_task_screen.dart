@@ -105,11 +105,16 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                                   .postRequest(url: createTaskUrl, data: data);
                               if (response.isSuccess) {
                                 if (mounted) {
-                                  statusSnackBar(
-                                      context, 'Task Added Successfully');
+                                  statusSnackBar(context,
+                                      'Task Added Successfully', false);
                                 }
                                 subjectTextController.clear();
                                 describtionTextController.clear();
+                              } else {
+                                if (mounted) {
+                                  statusSnackBar(context,
+                                      'Could not added Task! Try Again', true);
+                                }
                               }
                             },
                             child: const Icon(
