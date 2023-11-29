@@ -71,6 +71,12 @@ class NetworkCaller {
           jsonResponse: jsonDecode(response.body),
           statusCode: 200,
         );
+      } else if (response.statusCode == 401) {
+        backToLoginPage();
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: response.statusCode,
+        );
       } else {
         return NetworkResponse(
           isSuccess: false,

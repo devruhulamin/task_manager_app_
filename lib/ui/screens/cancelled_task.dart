@@ -4,9 +4,14 @@ import 'package:task_manager_app/ui/widgets/task_item.dart';
 import 'package:task_manager_app/utilities/fetch_task.dart';
 import 'package:task_manager_app/utilities/urls.dart';
 
-class CancelledTaskScreen extends StatelessWidget {
+class CancelledTaskScreen extends StatefulWidget {
   const CancelledTaskScreen({super.key});
 
+  @override
+  State<CancelledTaskScreen> createState() => _CancelledTaskScreenState();
+}
+
+class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,15 +29,25 @@ class CancelledTaskScreen extends StatelessWidget {
                   final data = snapshot.data!;
 
                   return Expanded(
-                    child: ListView.builder(
-                      itemCount: data.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return TaskItem(
-                          type: TaskType.cancelled,
-                          task: data[index],
-                        );
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        return Future(() {
+                          setState(() {});
+                        });
                       },
+                      child: ListView.builder(
+                        itemCount: data.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return TaskItem(
+                            type: TaskType.cancelled,
+                            task: data[index],
+                            taskCallBack: () {
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
                     ),
                   );
                 } else {

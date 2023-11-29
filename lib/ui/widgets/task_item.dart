@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/task_model.dart';
+import 'package:task_manager_app/utilities/urls.dart';
+
+typedef RefreshTaskCallBack = void Function();
 
 enum TaskType { cancelled, completed, progress, newitem }
 
-class TaskItem extends StatelessWidget {
+class TaskItem extends StatefulWidget {
   const TaskItem({
     super.key,
     required this.type,
     required this.task,
+    required this.taskCallBack,
   });
 
   final TaskType type;
   final TaskModel task;
+  final RefreshTaskCallBack taskCallBack;
 
+  @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,20 +33,20 @@ class TaskItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${task.title}',
+              '${widget.task.title}',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              '${task.description}',
+              '${widget.task.description}',
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Date: ${task.createdDate}",
+              "Date: ${widget.task.createdDate}",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -45,24 +56,49 @@ class TaskItem extends StatelessWidget {
               children: [
                 Chip(
                     label: Text(
-                      getTypeText(type),
+                      getTypeText(widget.type),
                       style: const TextStyle(color: Colors.white),
                     ),
-                    backgroundColor: getTypeColor(type)),
+                    backgroundColor: getTypeColor(widget.type)),
                 const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.add_task_rounded,
-                    color: Colors.green,
-                  ),
-                ),
                 IconButton(
                     onPressed: () {},
                     icon: const Icon(
                       Icons.delete,
                       color: Colors.red,
-                    ))
+                    )),
+                DropdownButton<String>(
+                  // value: optionValue,
+                  hint: const Text("Change Status"),
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'new',
+                      child: Text('New'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Completed',
+                      child: Text('Completed'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'cancelled',
+                      child: Text('Cancelled'),
+                    ),
+                    DropdownMenuItem(
+                        value: 'progress', child: Text('Progress')),
+                  ],
+                  onChanged: (value) async {
+                    if (value == null) {
+                      return;
+                    }
+
+                    final response = await NetworkCaller().getRequest(
+                        url: updateTaskUrl(widget.task.sId!, value));
+                    if (response.isSuccess) {
+                      widget.taskCallBack();
+                    }
+                    setState(() {});
+                  },
+                ),
               ],
             )
           ],

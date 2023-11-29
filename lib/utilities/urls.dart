@@ -12,3 +12,6 @@ const getProgressTaskUrl = '$baseUrl/listTaskByStatus/progress';
 const getCancelledTaskUrl = '$baseUrl/listTaskByStatus/cancelled';
 const getCompleteTaskUrl = '$baseUrl/listTaskByStatus/Completed';
 const getTaskStatusUrl = '$baseUrl/taskStatusCount';
+
+String updateTaskUrl(String id, String updateType) =>
+    '$baseUrl//updateTaskStatus/$id/$updateType';

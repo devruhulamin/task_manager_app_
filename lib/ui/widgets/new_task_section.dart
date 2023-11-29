@@ -3,11 +3,16 @@ import 'package:task_manager_app/ui/widgets/task_item.dart';
 import 'package:task_manager_app/utilities/fetch_task.dart';
 import 'package:task_manager_app/utilities/urls.dart';
 
-class NewTaskSection extends StatelessWidget {
+class NewTaskSection extends StatefulWidget {
   const NewTaskSection({
     super.key,
   });
 
+  @override
+  State<NewTaskSection> createState() => _NewTaskSectionState();
+}
+
+class _NewTaskSectionState extends State<NewTaskSection> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -18,15 +23,25 @@ class NewTaskSection extends StatelessWidget {
             if (snapshot.hasData) {
               final data = snapshot.data!;
               return Expanded(
-                child: ListView.builder(
-                  itemCount: data.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return TaskItem(
-                      type: TaskType.newitem,
-                      task: data[index],
-                    );
+                child: RefreshIndicator(
+                  onRefresh: () {
+                    return Future(() {
+                      setState(() {});
+                    });
                   },
+                  child: ListView.builder(
+                    itemCount: data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return TaskItem(
+                        type: TaskType.newitem,
+                        task: data[index],
+                        taskCallBack: () {
+                          setState(() {});
+                        },
+                      );
+                    },
+                  ),
                 ),
               );
             } else {
