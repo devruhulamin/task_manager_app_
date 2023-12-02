@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
@@ -10,6 +11,14 @@ class ProfileBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userData = AuthController().userAuthData;
+    String? profilePhoto;
+    if (userData != null) {
+      final base64Image =
+          userData.photo?.replaceAll('data:image/png;base64,', '');
+
+      profilePhoto = base64Image;
+      print(profilePhoto);
+    }
     return Container(
       decoration: const BoxDecoration(color: Colors.green),
       child: ListTile(
@@ -23,8 +32,10 @@ class ProfileBar extends StatelessWidget {
           }
         },
         tileColor: Colors.green,
-        leading: const CircleAvatar(
-          child: Icon(Icons.person),
+        leading: CircleAvatar(
+          child: profilePhoto == null
+              ? const Icon(Icons.person)
+              : Image.memory(base64Decode(profilePhoto)),
         ),
         title: Text(
           "${userData?.firstName} ${userData?.lastName}",

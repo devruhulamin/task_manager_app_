@@ -15,3 +15,5 @@ const getTaskStatusUrl = '$baseUrl/taskStatusCount';
 
 String updateTaskUrl(String id, String updateType) =>
     '$baseUrl//updateTaskStatus/$id/$updateType';
+
+const profileUpdateUrl = '$baseUrl/profileUpdate';
