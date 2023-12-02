@@ -17,7 +17,7 @@ Future<List<TaskModel>?> fetchTaskItem(String url) async {
       return tasklist;
     }
   } catch (e) {
-    print('error occur $e');
+    rethrow;
   }
 
   return null;

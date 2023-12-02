@@ -17,7 +17,6 @@ class ProfileBar extends StatelessWidget {
           userData.photo?.replaceAll('data:image/png;base64,', '');
 
       profilePhoto = base64Image;
-      print(profilePhoto);
     }
     return Container(
       decoration: const BoxDecoration(color: Colors.green),
@@ -35,7 +34,10 @@ class ProfileBar extends StatelessWidget {
         leading: CircleAvatar(
           child: profilePhoto == null
               ? const Icon(Icons.person)
-              : Image.memory(base64Decode(profilePhoto)),
+              : Image.memory(
+                  base64Decode(profilePhoto),
+                  fit: BoxFit.cover,
+                ),
         ),
         title: Text(
           "${userData?.firstName} ${userData?.lastName}",
