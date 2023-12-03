@@ -25,3 +25,5 @@ String recoveryVerifiyEmail(String email) =>
 
 String verfiyOtpUrl(String email, String otp) =>
     '$baseUrl/RecoverVerifyOTP/$email/$otp';
+
+const resetPasswordUrl = '$baseUrl/RecoverResetPass';
