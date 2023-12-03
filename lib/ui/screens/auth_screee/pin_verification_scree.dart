@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/set_password_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
+import 'package:task_manager_app/utilities/status_snackbar.dart';
+import 'package:task_manager_app/utilities/urls.dart';
 
-class PinVerificationScreen extends StatelessWidget {
-  const PinVerificationScreen({super.key});
+class PinVerificationScreen extends StatefulWidget {
+  const PinVerificationScreen({super.key, required this.email});
+  final String email;
+
+  @override
+  State<PinVerificationScreen> createState() => _PinVerificationScreenState();
+}
+
+class _PinVerificationScreenState extends State<PinVerificationScreen> {
+  String? userEnteredPin;
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +47,16 @@ class PinVerificationScreen extends StatelessWidget {
                         ),
                         Center(
                           child: Pinput(
+                            length: 6,
                             defaultPinTheme: defaultPinTheme,
                             focusedPinTheme: focusedPinTheme,
                             submittedPinTheme: submittedPinTheme,
-                            validator: (s) {
-                              return s == '2222' ? null : 'Pin is incorrect';
-                            },
                             pinputAutovalidateMode:
                                 PinputAutovalidateMode.onSubmit,
                             showCursor: true,
-                            onCompleted: (pinCode) {},
+                            onCompleted: (pinCode) {
+                              userEnteredPin = pinCode;
+                            },
                           ),
                         ),
                         const SizedBox(
@@ -53,7 +65,35 @@ class PinVerificationScreen extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              if (userEnteredPin != null) {
+                                final response = await NetworkCaller()
+                                    .getRequest(
+                                        url: verfiyOtpUrl(
+                                            widget.email, userEnteredPin!));
+                                if (response.isSuccess) {
+                                  if (mounted &&
+                                      response.jsonResponse['status'] ==
+                                          'fail') {
+                                    statusSnackBar(
+                                        context,
+                                        '${response.jsonResponse["data"]}',
+                                        true);
+                                  } else {
+                                    if (mounted) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SetPasswordScreen(
+                                                    email: widget.email,
+                                                    otp: userEnteredPin!),
+                                          ));
+                                    }
+                                  }
+                                }
+                              }
+                            },
                             child: const Text(
                               "Verify",
                               style: TextStyle(color: Colors.white),

@@ -19,3 +19,9 @@ String updateTaskUrl(String id, String updateType) =>
 const profileUpdateUrl = '$baseUrl/profileUpdate';
 
 String deleteTaskUrl(String id) => '$baseUrl//deleteTask/$id';
+
+String recoveryVerifiyEmail(String email) =>
+    '$baseUrl/RecoverVerifyEmail/$email';
+
+String verfiyOtpUrl(String email, String otp) =>
+    '$baseUrl/RecoverVerifyOTP/$email/$otp';

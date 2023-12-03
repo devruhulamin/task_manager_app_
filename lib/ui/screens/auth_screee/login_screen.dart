@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/user_mode.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/forgot_password_screen.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/register_screen.dart';
 import 'package:task_manager_app/ui/screens/home_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 import 'package:task_manager_app/utilities/extension/validator.dart';
@@ -105,29 +107,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  const Center(
+                  Center(
                     child: Column(children: [
-                      Text(
-                        "Forgot Password?",
-                        style: TextStyle(color: Colors.grey),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          ));
+                        },
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             "Don't have Account?",
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            "Signup",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const RegisterScreen(),
+                              ));
+                            },
+                            child: const Text(
+                              "Signup",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       )

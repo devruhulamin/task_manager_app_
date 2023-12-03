@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 
-class SetPasswordScreen extends StatelessWidget {
-  const SetPasswordScreen({super.key});
+class SetPasswordScreen extends StatefulWidget {
+  const SetPasswordScreen({super.key, required this.email, required this.otp});
 
+  final String email;
+  final String otp;
+
+  @override
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
+}
+
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
