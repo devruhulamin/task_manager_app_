@@ -62,7 +62,38 @@ class _TaskItemState extends State<TaskItem> {
                     backgroundColor: getTypeColor(widget.type)),
                 const Spacer(),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final isDel = await showDialog<bool>(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Deleting Task"),
+                            content:
+                                const Text("Are you Sure Wanna Delete Task?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context, false);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context, true);
+                                  },
+                                  child: const Text('Okay!'))
+                            ],
+                          );
+                        },
+                      );
+                      if (isDel ?? false) {
+                        final response = await NetworkCaller()
+                            .getRequest(url: deleteTaskUrl(widget.task.sId!));
+                        if (response.isSuccess) {
+                          widget.taskCallBack();
+                        }
+                      }
+                    },
                     icon: const Icon(
                       Icons.delete,
                       color: Colors.red,

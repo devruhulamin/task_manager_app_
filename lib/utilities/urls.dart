@@ -17,3 +17,5 @@ String updateTaskUrl(String id, String updateType) =>
     '$baseUrl//updateTaskStatus/$id/$updateType';
 
 const profileUpdateUrl = '$baseUrl/profileUpdate';
+
+String deleteTaskUrl(String id) => '$baseUrl//deleteTask/$id';
