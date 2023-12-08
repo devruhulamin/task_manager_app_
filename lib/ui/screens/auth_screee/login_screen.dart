@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/auth/auth_controller.dart';
-import 'package:task_manager_app/data/network_caller/network_caller.dart';
-import 'package:task_manager_app/model/user_mode.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/controller/login_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/forgot_password_screen.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/register_screen.dart';
 import 'package:task_manager_app/ui/screens/home_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 import 'package:task_manager_app/utilities/extension/validator.dart';
-import 'package:task_manager_app/utilities/urls.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -93,18 +91,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        final data = {
-                          "email": _emailTextField.text,
-                          "password": _passwordTextField.text,
-                        };
-                        await _signIn(data);
-                      },
-                      child: const Icon(
-                        Icons.arrow_circle_right_outlined,
-                      ),
-                    ),
+                    child:
+                        GetBuilder<LoginController>(builder: (logincontroller) {
+                      return Visibility(
+                        visible: logincontroller.loginProgress == false,
+                        replacement:
+                            const Center(child: CircularProgressIndicator()),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            _formKey.currentState?.validate();
+
+                            final isSuccess = await logincontroller.login(
+                                _emailTextField.text.trim(),
+                                _passwordTextField.text);
+                            if (isSuccess) {
+                              Get.offAll(const HomeScreen());
+                            } else {
+                              Get.snackbar('Opps Error Occur',
+                                  '${logincontroller.loginFaildMessage}');
+                            }
+                          },
+                          child: const Icon(
+                            Icons.arrow_circle_right_outlined,
+                          ),
+                        ),
+                      );
+                    }),
                   ),
                   const SizedBox(height: 40),
                   Center(
@@ -156,29 +168,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       )),
     );
-  }
-
-  Future<void> _signIn(Map<String, String> loginData) async {
-    final networkCaller = NetworkCaller();
-    final authController = AuthController();
-    try {
-      final response =
-          await networkCaller.postRequest(url: loginUrl, data: loginData);
-      if (response.statusCode == 200) {
-        final token = response.jsonResponse['token'];
-        final userData = UserModel.fromJson(response.jsonResponse['data']);
-        authController.saveUserAuthData(token, userData);
-        if (mounted) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-              (route) => false);
-        }
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
   }
 }

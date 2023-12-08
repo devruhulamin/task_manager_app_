@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/controller/login_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/splash_screen.dart';
 
 void main() {
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: navigatorKey,
       theme: ThemeData(
           primaryColor: Colors.green,
@@ -24,6 +26,14 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.green[400],
           ))),
       home: const SplashScreen(),
+      initialBinding: GetxInitialBinding(),
     );
+  }
+}
+
+class GetxInitialBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(LoginController());
   }
 }
