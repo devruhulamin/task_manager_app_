@@ -3,17 +3,18 @@ import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/task_model.dart';
 import 'package:task_manager_app/utilities/urls.dart';
 
-class NewTaskController extends GetxController {
+class ProgressTaskController extends GetxController {
   List<TaskModel> _taskList = [];
   bool _isLoading = false;
 
-  List<TaskModel> get newTaskList => _taskList;
+  List<TaskModel> get progressTaskList => _taskList;
   bool get isLoading => _isLoading;
   Future<bool> fetchTaskItem() async {
     try {
       _isLoading = true;
       update();
-      final response = await NetworkCaller().getRequest(url: getNewTastUrl);
+      final response =
+          await NetworkCaller().getRequest(url: getProgressTaskUrl);
       if (response.isSuccess) {
         final data = response.jsonResponse;
         if (data['data'].length == 0) {

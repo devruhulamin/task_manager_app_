@@ -3,8 +3,6 @@ import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/task_model.dart';
 import 'package:task_manager_app/utilities/urls.dart';
 
-typedef RefreshTaskCallBack = void Function();
-
 enum TaskType { cancelled, completed, progress, newitem }
 
 class TaskItem extends StatefulWidget {
@@ -12,12 +10,10 @@ class TaskItem extends StatefulWidget {
     super.key,
     required this.type,
     required this.task,
-    required this.taskCallBack,
   });
 
   final TaskType type;
   final TaskModel task;
-  final RefreshTaskCallBack taskCallBack;
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -89,9 +85,7 @@ class _TaskItemState extends State<TaskItem> {
                       if (isDel ?? false) {
                         final response = await NetworkCaller()
                             .getRequest(url: deleteTaskUrl(widget.task.sId!));
-                        if (response.isSuccess) {
-                          widget.taskCallBack();
-                        }
+                        if (response.isSuccess) {}
                       }
                     },
                     icon: const Icon(
@@ -124,9 +118,7 @@ class _TaskItemState extends State<TaskItem> {
 
                     final response = await NetworkCaller().getRequest(
                         url: updateTaskUrl(widget.task.sId!, value));
-                    if (response.isSuccess) {
-                      widget.taskCallBack();
-                    }
+                    if (response.isSuccess) {}
                     setState(() {});
                   },
                 ),
@@ -160,5 +152,18 @@ String getTypeText(TaskType type) {
     return 'new';
   } else {
     return 'progress';
+  }
+}
+
+String getRefreshUrl(TaskType type) {
+  switch (type) {
+    case TaskType.cancelled:
+      return getCancelledTaskUrl;
+    case TaskType.completed:
+      return getCompleteTaskUrl;
+    case TaskType.progress:
+      return getProgressTaskUrl;
+    case TaskType.newitem:
+      return getNewTastUrl;
   }
 }
