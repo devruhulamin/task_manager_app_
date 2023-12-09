@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/data/network_caller/network_caller.dart';
-import 'package:task_manager_app/ui/screens/home_screen.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/controller/register_controller.dart';
+import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 import 'package:task_manager_app/utilities/extension/validator.dart';
-import 'package:task_manager_app/utilities/urls.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,7 +19,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final lastNameTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final passwordTextController = TextEditingController();
-  bool _isLoading = false;
   @override
   void dispose() {
     emailTextController.dispose();
@@ -154,70 +153,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      visible: _isLoading == false,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          formKey.currentState?.validate();
-                          _isLoading = true;
-                          setState(() {});
-                          final regData = {
-                            "email": emailTextController.text,
-                            "firstName": firstNameTextController.text,
-                            "lastName": lastNameTextController.text,
-                            "mobile": phoneTextController.text,
-                            "password": passwordTextController.text,
-                          };
-                          final response = await NetworkCaller()
-                              .postRequest(url: registerUrl, data: regData);
-                          if (response.statusCode == 200) {
-                            _isLoading = false;
-                            setState(() {});
-                            if (mounted) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomeScreen(),
-                                  ),
-                                  (route) => false);
+                  GetBuilder<RegisterController>(builder: (registerState) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        visible: registerState.isRegisterInProgress == false,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            formKey.currentState?.validate();
+                            final result = await registerState.registerAccount(
+                                email: emailTextController.text,
+                                firstName: firstNameTextController.text,
+                                lastName: lastNameTextController.text,
+                                password: passwordTextController.text,
+                                mobile: phoneTextController.text);
+                            if (result) {
+                              Get.offAll(const LoginScreen());
+                            } else {
+                              Get.snackbar('Opps Error Occur',
+                                  '${registerState.getErrorMessage}');
                             }
-                          }
-                        },
-                        child: const Icon(
-                          Icons.arrow_circle_right_outlined,
+                          },
+                          child: const Icon(
+                            Icons.arrow_circle_right_outlined,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(height: 40),
-                  const Center(
+                  Center(
                     child: Column(children: [
-                      Text(
+                      const Text(
                         "Forgot Password?",
                         style: TextStyle(color: Colors.grey),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Don't have Account?",
+                          const Text(
+                            "Already Have An Account?",
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            "Signup",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
+                          TextButton(
+                            onPressed: () {
+                              Get.offAll(const LoginScreen());
+                            },
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       )
