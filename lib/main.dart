@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager_app/controller/login_controller.dart';
 import 'package:task_manager_app/controller/register_controller.dart';
+import 'package:task_manager_app/controller/task_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/splash_screen.dart';
 
 void main() {
@@ -37,5 +38,6 @@ class GetxInitialBinding extends Bindings {
   void dependencies() {
     Get.put(LoginController());
     Get.put(RegisterController());
+    Get.put(TaskController());
   }
 }
