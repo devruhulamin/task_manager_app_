@@ -12,36 +12,30 @@ class TaskStatusSection extends StatefulWidget {
 
 class _TaskStatusSectionState extends State<TaskStatusSection> {
   @override
+  void initState() {
+    Get.put(TaskStatusController()).getTaskStatus();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<TaskStatusController>(builder: (controller) {
-      return FutureBuilder(
-        future: controller.getTaskStatus(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (snapshot.hasData) {
-                final data = snapshot.data!;
-                return SizedBox(
-                  height: 80,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return StatusCard(
-                            count: "${data[index].sum}",
-                            labelText: '${data[index].sId}');
-                      },
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 5),
-                      itemCount: data.length),
-                );
-              } else {
-                return const LinearProgressIndicator();
-              }
-
-            default:
-              return const LinearProgressIndicator();
-          }
-        },
+      return Visibility(
+        visible: controller.isLoading == false,
+        replacement: const LinearProgressIndicator(),
+        child: SizedBox(
+          height: 80,
+          child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final data = controller.taskStatus;
+                return StatusCard(
+                    count: "${data[index].sum}",
+                    labelText: '${data[index].sId}');
+              },
+              separatorBuilder: (context, index) => const SizedBox(width: 5),
+              itemCount: controller.taskStatus.length),
+        ),
       );
     });
   }

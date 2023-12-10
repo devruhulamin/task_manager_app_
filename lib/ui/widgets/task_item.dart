@@ -5,6 +5,7 @@ import 'package:task_manager_app/controller/complete_task_controller.dart';
 import 'package:task_manager_app/controller/delete_task_controller.dart';
 import 'package:task_manager_app/controller/progress_taks_controller.dart';
 import 'package:task_manager_app/controller/task_controller.dart';
+import 'package:task_manager_app/controller/task_status_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/task_model.dart';
 import 'package:task_manager_app/utilities/urls.dart';
@@ -136,6 +137,7 @@ class _TaskItemState extends State<TaskItem> {
                     final response = await NetworkCaller().getRequest(
                         url: updateTaskUrl(widget.task.sId!, value));
                     if (response.isSuccess) {
+                      await Get.put(TaskStatusController()).getTaskStatus();
                       switch (widget.type) {
                         case TaskType.cancelled:
                           Get.put(CancellTaskController()).fetchTaskItem();
