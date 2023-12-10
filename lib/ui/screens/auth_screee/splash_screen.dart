@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/login_screen.dart';
 import 'package:task_manager_app/ui/screens/home_screen.dart';
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 void goToHome(BuildContext context) async {
-  final isAuthenticated = await AuthController().checkAuthState();
+  final isAuthenticated = await Get.put(AuthController()).checkAuthState();
   Future.delayed(
     const Duration(seconds: 3),
     () {

@@ -1,22 +1,12 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_manager_app/model/user_mode.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   String? userAuthToken;
   UserModel? userAuthData;
-
-  // Private constructor
-  AuthController._privateConstructor();
-
-  // Static instance variable
-  static final AuthController _instance = AuthController._privateConstructor();
-
-  // Factory constructor to return the singleton instance
-  factory AuthController() {
-    return _instance;
-  }
 
   Future<void> saveUserAuthData(String authToken, UserModel user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,6 +20,7 @@ class AuthController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userData', jsonEncode(user.toJson()));
     userAuthData = user;
+    update();
   }
 
   Future<void> initilizeAuthCache() async {

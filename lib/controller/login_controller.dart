@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
@@ -11,7 +12,7 @@ class LoginController extends GetxController {
   String? get loginFaildMessage => _failedMessage;
   Future<bool> login(String email, String password) async {
     final networkCaller = NetworkCaller();
-    final authController = AuthController();
+    final authController = Get.put(AuthController());
     try {
       _loginProgress = true;
       update();

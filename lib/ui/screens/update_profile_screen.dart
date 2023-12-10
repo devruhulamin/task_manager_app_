@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
-import 'package:task_manager_app/data/network_caller/network_caller.dart';
+import 'package:task_manager_app/controller/update_profile_controller.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 import 'package:task_manager_app/ui/widgets/profile_bar.dart';
 import 'package:task_manager_app/utilities/extension/validator.dart';
-import 'package:task_manager_app/utilities/urls.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -25,13 +25,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final updateForm = GlobalKey<FormState>();
   XFile? profileImage;
   String profileImageName = 'not_selected';
+  final updateController = Get.put(UpdateProfileController());
+  final authController = Get.put(AuthController());
   @override
   void initState() {
     super.initState();
-    emailController.text = AuthController().userAuthData?.email ?? '';
-    firstNameController.text = AuthController().userAuthData?.firstName ?? '';
-    lastNameController.text = AuthController().userAuthData?.lastName ?? '';
-    phoneNumberController.text = AuthController().userAuthData?.mobile ?? '';
+    emailController.text = authController.userAuthData?.email ?? '';
+    firstNameController.text = authController.userAuthData?.firstName ?? '';
+    lastNameController.text = authController.userAuthData?.lastName ?? '';
+    phoneNumberController.text = authController.userAuthData?.mobile ?? '';
   }
 
   @override
@@ -230,14 +232,23 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       ),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            updateProfile();
-                          },
-                          child: const Icon(
-                            Icons.arrow_circle_right_outlined,
-                          ),
-                        ),
+                        child: GetBuilder<UpdateProfileController>(
+                            builder: (controller) {
+                          return Visibility(
+                            visible: controller.isLoading == false,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                updateProfile();
+                              },
+                              child: const Icon(
+                                Icons.arrow_circle_right_outlined,
+                              ),
+                            ),
+                          );
+                        }),
                       ),
                     ],
                   ),
@@ -257,7 +268,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       "lastName": lastNameController.text,
       "mobile": phoneNumberController.text,
     };
-    final updatedUser = AuthController().userAuthData;
+    final updatedUser = authController.userAuthData;
     updatedUser?.email = emailController.text;
     updatedUser?.firstName = firstNameController.text;
     updatedUser?.lastName = lastNameController.text;
@@ -274,17 +285,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         updatedUser?.photo = imagebase64;
       }
     }
-    try {
-      final response =
-          await NetworkCaller().postRequest(url: profileUpdateUrl, data: data);
-      if (response.isSuccess) {
-        AuthController().updateAuthData(updatedUser!);
-        if (mounted) {
-          Navigator.pop(context);
-        }
-      }
-    } catch (e) {
-      rethrow;
+    final res = await updateController.updateProfile(data, updatedUser!);
+    if (res) {
+      Get.back();
+    } else {
+      Get.snackbar('Opps Error', 'could not update user');
     }
   }
 }

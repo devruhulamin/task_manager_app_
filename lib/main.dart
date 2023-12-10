@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/controller/add_new_task_controller.dart';
 import 'package:task_manager_app/controller/cancel_taks_controller.dart';
 import 'package:task_manager_app/controller/complete_task_controller.dart';
@@ -9,6 +10,7 @@ import 'package:task_manager_app/controller/progress_taks_controller.dart';
 import 'package:task_manager_app/controller/register_controller.dart';
 import 'package:task_manager_app/controller/task_controller.dart';
 import 'package:task_manager_app/controller/task_status_controller.dart';
+import 'package:task_manager_app/controller/update_profile_controller.dart';
 import 'package:task_manager_app/ui/screens/auth_screee/splash_screen.dart';
 
 void main() {
@@ -51,5 +53,7 @@ class GetxInitialBinding extends Bindings {
     Get.put(TaskStatusController());
     Get.put(TaskDeleteController());
     Get.put(AddNewTaskController());
+    Get.put(UpdateProfileController());
+    Get.put(AuthController());
   }
 }
