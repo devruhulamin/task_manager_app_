@@ -19,6 +19,7 @@ class NewTaskController extends GetxController {
         if (data['data'].length == 0) {
           _isLoading = false;
           update();
+          _taskList = [];
           return false;
         }
         final List<TaskModel> tlist = [];

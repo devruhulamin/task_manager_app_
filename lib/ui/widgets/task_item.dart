@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/controller/cancel_taks_controller.dart';
+import 'package:task_manager_app/controller/complete_task_controller.dart';
+import 'package:task_manager_app/controller/delete_task_controller.dart';
+import 'package:task_manager_app/controller/progress_taks_controller.dart';
+import 'package:task_manager_app/controller/task_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/task_model.dart';
 import 'package:task_manager_app/utilities/urls.dart';
@@ -83,9 +89,20 @@ class _TaskItemState extends State<TaskItem> {
                         },
                       );
                       if (isDel ?? false) {
-                        final response = await NetworkCaller()
-                            .getRequest(url: deleteTaskUrl(widget.task.sId!));
-                        if (response.isSuccess) {}
+                        final result = await Get.put(TaskDeleteController())
+                            .deleteTask(widget.task.sId!);
+                        if (result) {
+                          switch (widget.type) {
+                            case TaskType.cancelled:
+                              Get.put(CancellTaskController()).fetchTaskItem();
+                            case TaskType.completed:
+                              Get.put(CompleteTaskController()).fetchTaskItem();
+                            case TaskType.progress:
+                              Get.put(ProgressTaskController()).fetchTaskItem();
+                            case TaskType.newitem:
+                              Get.put(NewTaskController()).fetchTaskItem();
+                          }
+                        }
                       }
                     },
                     icon: const Icon(
@@ -118,8 +135,18 @@ class _TaskItemState extends State<TaskItem> {
 
                     final response = await NetworkCaller().getRequest(
                         url: updateTaskUrl(widget.task.sId!, value));
-                    if (response.isSuccess) {}
-                    setState(() {});
+                    if (response.isSuccess) {
+                      switch (widget.type) {
+                        case TaskType.cancelled:
+                          Get.put(CancellTaskController()).fetchTaskItem();
+                        case TaskType.completed:
+                          Get.put(CompleteTaskController()).fetchTaskItem();
+                        case TaskType.progress:
+                          Get.put(ProgressTaskController()).fetchTaskItem();
+                        case TaskType.newitem:
+                          Get.put(NewTaskController()).fetchTaskItem();
+                      }
+                    }
                   },
                 ),
               ],
@@ -152,18 +179,5 @@ String getTypeText(TaskType type) {
     return 'new';
   } else {
     return 'progress';
-  }
-}
-
-String getRefreshUrl(TaskType type) {
-  switch (type) {
-    case TaskType.cancelled:
-      return getCancelledTaskUrl;
-    case TaskType.completed:
-      return getCompleteTaskUrl;
-    case TaskType.progress:
-      return getProgressTaskUrl;
-    case TaskType.newitem:
-      return getNewTastUrl;
   }
 }
