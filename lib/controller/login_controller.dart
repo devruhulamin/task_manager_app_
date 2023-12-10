@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:task_manager_app/auth/auth_controller.dart';
 import 'package:task_manager_app/data/network_caller/network_caller.dart';
 import 'package:task_manager_app/model/user_mode.dart';
