@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manager_app/controller/add_new_task_controller.dart';
 import 'package:task_manager_app/controller/cancel_taks_controller.dart';
 import 'package:task_manager_app/controller/complete_task_controller.dart';
 import 'package:task_manager_app/controller/delete_task_controller.dart';
@@ -49,5 +50,6 @@ class GetxInitialBinding extends Bindings {
     Get.put(CompleteTaskController());
     Get.put(TaskStatusController());
     Get.put(TaskDeleteController());
+    Get.put(AddNewTaskController());
   }
 }

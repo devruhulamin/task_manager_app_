@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/data/network_caller/network_caller.dart';
+import 'package:get/get.dart';
+import 'package:task_manager_app/controller/add_new_task_controller.dart';
+import 'package:task_manager_app/controller/task_controller.dart';
 import 'package:task_manager_app/ui/widgets/default_background.dart';
 import 'package:task_manager_app/ui/widgets/profile_bar.dart';
-import 'package:task_manager_app/utilities/status_snackbar.dart';
-import 'package:task_manager_app/utilities/urls.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
@@ -93,34 +93,38 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         ),
                         SizedBox(
                           width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              _formKey.currentState?.validate();
-                              final data = {
-                                "title": subjectTextController.text,
-                                "description": describtionTextController.text,
-                                "status": "new",
-                              };
-                              final response = await NetworkCaller()
-                                  .postRequest(url: createTaskUrl, data: data);
-                              if (response.isSuccess) {
-                                if (mounted) {
-                                  statusSnackBar(context,
-                                      'Task Added Successfully', false);
-                                }
-                                subjectTextController.clear();
-                                describtionTextController.clear();
-                              } else {
-                                if (mounted) {
-                                  statusSnackBar(context,
-                                      'Could not added Task! Try Again', true);
-                                }
-                              }
-                            },
-                            child: const Icon(
-                              Icons.arrow_circle_right_outlined,
-                            ),
-                          ),
+                          child: GetBuilder<AddNewTaskController>(
+                              builder: (controller) {
+                            return Visibility(
+                              visible: controller.loading == false,
+                              replacement: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  _formKey.currentState?.validate();
+
+                                  final response = await controller.addNewTask(
+                                      subjectTextController.text,
+                                      describtionTextController.text);
+                                  if (response) {
+                                    Get.snackbar(
+                                        'Succussefull', 'New Task Added Done');
+                                    await Get.put(NewTaskController())
+                                        .fetchTaskItem();
+                                    subjectTextController.clear();
+                                    describtionTextController.clear();
+                                  } else {
+                                    Get.snackbar('Opps Something Went Wrong!',
+                                        'Could not Create New Task');
+                                  }
+                                },
+                                child: const Icon(
+                                  Icons.arrow_circle_right_outlined,
+                                ),
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     ),
