@@ -1,16 +1,23 @@
-## Task Manager App Build With Flutter
+# Flutter Task Manager App
 
-### This task manager app offers the following key features:
-### Adding tasks:
-Users can create new tasks with names and descriptions.
-### Viewing tasks:
-Displays a list of all tasks with details like task status and date .
-### Change task status:
-Option to change the task status to active,completed,cancelleda and progress.
-### Update profile:
-Users can update their profile and add profile picture.
-### Reset password:
-Users can reset password by otp verification.
+Welcome to the Flutter Task Manager App! This application is designed to streamline your task management experience, offering a set of features to make organizing and tracking tasks a breeze.
+
+## Key Features
+
+### Adding Tasks
+- Create new tasks with names and descriptions effortlessly.
+
+### Viewing Tasks
+- Review a comprehensive list of all tasks, complete with essential details like task status and dates.
+
+### Task Status Updates
+- Easily change the status of tasks to active, completed, cancelled, or in-progress.
+
+### Profile Management
+- Customize your experience by updating your profile information and adding a profile picture.
+
+### Password Reset
+- Forgot your password? No problem! Reset it securely through OTP verification.
 <br/>
 
 <img src="https://github.com/devruhulamin/task_manager_app_/assets/142089324/9891545f-78de-4d72-8f8a-09ed18155305" width="200" height="400" />
